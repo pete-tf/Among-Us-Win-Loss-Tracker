@@ -252,17 +252,29 @@ def imageCapture():
     global crewLoss
     global role
     global roleColor
+    global bottomButton1text
+    global bottomButton1color
+    global bottomButton2text
+    global bottomButton2color
 
     print(result)
     if "impostor" in result and "impostor?" not in result:
         role = "Impostor"
         roleColor = "red"
+        bottomButton1text = "Manual Win"
+        bottomButton1color = "white"
+        bottomButton2text = "Manual Loss"
+        bottomButton2color = "white"
         updateRole()
         print("Waiting for 60 seconds.")
         time.sleep(60)
     elif "crewmate" in result or "crewmnate" in result:
         role = "Crewmate"
         roleColor = "blue"
+        bottomButton1text = "Manual Win"
+        bottomButton1color = "white"
+        bottomButton2text = "Manual Loss"
+        bottomButton2color = "white"
         updateRole()
         print("Waiting for 60 seconds.")
         time.sleep(60)
@@ -271,23 +283,39 @@ def imageCapture():
             addImpWin()
             role = "In Lobby"
             roleColor = "black"
+            bottomButton1text = "Manual Crewmate"
+            bottomButton1color = "blue"
+            bottomButton2text = "Manual Impostor"
+            bottomButton2color = "red"
             updateRole()
         if role == "Crewmate":
             addCrewWin()
             role = "In Lobby"
             roleColor = "black"
+            bottomButton1text = "Manual Crewmate"
+            bottomButton1color = "blue"
+            bottomButton2text = "Manual Impostor"
+            bottomButton2color = "red"
             updateRole()
     elif "defeat" in result:
         if role == "Impostor":
             addImpLoss()
             role = "In Lobby"
             roleColor = "black"
+            bottomButton1text = "Manual Crewmate"
+            bottomButton1color = "blue"
+            bottomButton2text = "Manual Impostor"
+            bottomButton2color = "red"
             updateRole()
             time.sleep(5)
         if role == "Crewmate":
             addCrewLoss()
             role = "In Lobby"
             roleColor = "black"
+            bottomButton1text = "Manual Crewmate"
+            bottomButton1color = "blue"
+            bottomButton2text = "Manual Impostor"
+            bottomButton2color = "red"
             updateRole()
             time.sleep(5)
     else:
