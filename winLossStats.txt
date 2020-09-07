@@ -1,4 +1,4 @@
-Currently Impostor
+Currently In Lobby
 Winrate
-Impostor: 1 - 0
-Crewmate: 0 - 1
+Impostor: 0 - 0
+Crewmate: 0 - 0

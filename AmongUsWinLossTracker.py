@@ -295,7 +295,7 @@ def imageCapture():
         print(role)
         print("Nothing Done.")
 
-    time.sleep(1)
+    time.sleep(.9)
     #imageCapture()
 
 
@@ -368,12 +368,6 @@ CrewLossField = ""
 
 imCap = threading.Thread(target=loopingImages)
 imCap.start()
-
-time.sleep(.5)
-
-imCap2 = threading.Thread(target=loopingImages)
-imCap2.start()
-
 
 if __name__ == "__main__": 
     gui = Tk() 
