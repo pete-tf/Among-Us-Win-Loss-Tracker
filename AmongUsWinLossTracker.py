@@ -49,7 +49,7 @@ def addImpLoss():
     global impLoss
     (impLoss:=impLoss+1)
     impLossField.configure(text=impLoss)
-    with open('impLoss.txt','w+') as impostorLossFile:
+    with open('impostorLoss.txt','w+') as impostorLossFile:
         impostorLossFile.write(str(impLoss))
     outputToFile()
 
