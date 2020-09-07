@@ -156,13 +156,13 @@ def manualImpostor():
 def bottomButton1():
     if role == "Impostor" or role == "Crewmate":
         manualWin()
-    if role == "In Lobby":
+    elif role == "In Lobby":
         manualCrew()
 
 def bottomButton2():
     if role == "Impostor" or role == "Crewmate":
         manualLoss()
-    if role == "In Lobby":
+    elif role == "In Lobby":
         manualImpostor()
 
 def updateRole():
@@ -294,7 +294,7 @@ def imageCapture():
         print(role)
         print("Nothing Done.")
 
-    time.sleep(.9)
+    time.sleep(1)
     #imageCapture()
 
 
@@ -347,6 +347,11 @@ else:
     with open('crewLoss.txt','w+') as crewLossFile:
         crewLossFile.write("0")
         crewLoss = 0
+
+if not os.path.isfile('winLossStats.txt'):
+    with open('winLossStats.txt','w+') as winLossFile:
+        winLossFile.write("")
+    
         
 
 
@@ -397,33 +402,35 @@ if __name__ == "__main__":
                             command=remImpWin, height=1,width=7)
     buttonRemImpWin.grid(row=2, column=0)
     
-    crewWinDesc = Label(gui, text="Number of Crewmate Wins", fg='white', bg='black', height=1,width=30)
-    crewWinDesc.grid(row=3, column=0, columnspan=3)
-    
-    crewWinField = Label(gui, text=crewWin, fg='black', bg='white', height=1,width=7)
-    crewWinField.grid(row=4, column=1)
-    
-    buttonAddCrewWin = Button(gui, text=' + ', fg='black', bg='white',
-                            command=addCrewWin, height=1,width=7)
-    buttonAddCrewWin.grid(row=4, column=2)
-    
-    buttonRemCrewWin = Button(gui, text=' - ', fg='black', bg='white',
-                            command=remCrewWin, height=1,width=7)
-    buttonRemCrewWin.grid(row=4, column=0)
-
     impLossDesc = Label(gui, text="Number of Impostor Losses", fg='white', bg='black', height=1,width=30)
-    impLossDesc.grid(row=5, column=0, columnspan=3)
+    impLossDesc.grid(row=3, column=0, columnspan=3)
     
     impLossField = Label(gui, text=impLoss, fg='black', bg='white', height=1,width=7)
-    impLossField.grid(row=6, column=1)
+    impLossField.grid(row=4, column=1)
     
     buttonAddImpLoss = Button(gui, text=' + ', fg='black', bg='white',
                             command=addImpLoss, height=1,width=7)
-    buttonAddImpLoss.grid(row=6, column=2)
+    buttonAddImpLoss.grid(row=4, column=2)
     
     buttonRemImpLoss = Button(gui, text=' - ', fg='black', bg='white',
                             command=remImpLoss, height=1,width=7)
-    buttonRemImpLoss.grid(row=6, column=0)
+    buttonRemImpLoss.grid(row=4, column=0)
+
+    crewWinDesc = Label(gui, text="Number of Crewmate Wins", fg='white', bg='black', height=1,width=30)
+    crewWinDesc.grid(row=5, column=0, columnspan=3)
+    
+    crewWinField = Label(gui, text=crewWin, fg='black', bg='white', height=1,width=7)
+    crewWinField.grid(row=6, column=1)
+    
+    buttonAddCrewWin = Button(gui, text=' + ', fg='black', bg='white',
+                            command=addCrewWin, height=1,width=7)
+    buttonAddCrewWin.grid(row=6, column=2)
+    
+    buttonRemCrewWin = Button(gui, text=' - ', fg='black', bg='white',
+                            command=remCrewWin, height=1,width=7)
+    buttonRemCrewWin.grid(row=6, column=0)
+
+
     
     crewLossDesc = Label(gui, text="Number of Crewmate Losses", fg='white', bg='black', height=1,width=30)
     crewLossDesc.grid(row=7, column=0, columnspan=3)
@@ -454,3 +461,12 @@ if __name__ == "__main__":
     gui.mainloop()
 
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
