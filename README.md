@@ -2,6 +2,8 @@
 
 This is a python-based application to track the Wins and Losses automatically in Among Us.
 
+![example](https://i.imgur.com/ak9wONz.png)
+
 ## About
 
 The Wins and Losses are tracked by grabbing the part of the screen where round information is displayed every half second. The image is converted to binary Black and White, and given to the opensource Tesseract OCR from Google. The text is then read and acted on accordingly.
