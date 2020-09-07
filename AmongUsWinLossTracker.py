@@ -384,6 +384,7 @@ if __name__ == "__main__":
     gui.configure(background="black") 
     gui.title("Among Us Win/Loss") 
     gui.geometry("230x350")
+    gui.protocol("WM_DELETE_WINDOW", exitApp)
     
     currentRole = Label(gui, text=role, fg='white', bg=roleColor, height=2, width=32)
     currentRole.grid(row=0, column=0, columnspan=3)
