@@ -449,7 +449,7 @@ if __name__ == "__main__":
     currentRole = Label(gui, text=role, fg='white', bg=roleColor, height=2, width=32)
     currentRole.grid(row=0, column=0, columnspan=3)
 
-    impWinDesc = Label(gui, text="Number of Impostor Wins", fg='white', bg='black', height=1,width=30)
+    impWinDesc = Label(gui, text="Impostor Wins", fg='white', bg='black', height=1,width=30)
     impWinDesc.grid(row=1, column=0, columnspan=3)
     
     impWinField = Label(gui, text=impWin, fg='black', bg='white', height=1,width=7)
@@ -463,7 +463,7 @@ if __name__ == "__main__":
                             command=remImpWin, height=1,width=7)
     buttonRemImpWin.grid(row=2, column=0)
     
-    impLossDesc = Label(gui, text="Number of Impostor Losses", fg='white', bg='black', height=1,width=30)
+    impLossDesc = Label(gui, text="Impostor Losses", fg='white', bg='black', height=1,width=30)
     impLossDesc.grid(row=3, column=0, columnspan=3)
     
     impLossField = Label(gui, text=impLoss, fg='black', bg='white', height=1,width=7)
@@ -477,7 +477,7 @@ if __name__ == "__main__":
                             command=remImpLoss, height=1,width=7)
     buttonRemImpLoss.grid(row=4, column=0)
 
-    crewWinDesc = Label(gui, text="Number of Crewmate Wins", fg='white', bg='black', height=1,width=30)
+    crewWinDesc = Label(gui, text="Crewmate Wins", fg='white', bg='black', height=1,width=30)
     crewWinDesc.grid(row=5, column=0, columnspan=3)
     
     crewWinField = Label(gui, text=crewWin, fg='black', bg='white', height=1,width=7)
@@ -493,7 +493,7 @@ if __name__ == "__main__":
 
 
     
-    crewLossDesc = Label(gui, text="Number of Crewmate Losses", fg='white', bg='black', height=1,width=30)
+    crewLossDesc = Label(gui, text="Crewmate Losses", fg='white', bg='black', height=1,width=30)
     crewLossDesc.grid(row=7, column=0, columnspan=3)
     
     crewLossField = Label(gui, text=crewLoss, fg='black', bg='white', height=1,width=7)
