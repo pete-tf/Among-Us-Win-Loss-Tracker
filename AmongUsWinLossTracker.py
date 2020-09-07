@@ -180,7 +180,6 @@ def updateRole():
 def renewGUI():
     gui.update()
     gui.update_idletasks()
-    gui.mainloop()
 
 def outputToFile():
     with open('winLossStats.txt','w+') as winLossFile:
@@ -368,6 +367,12 @@ CrewLossField = ""
 
 imCap = threading.Thread(target=loopingImages)
 imCap.start()
+
+time.sleep(.5)
+
+imCap2 = threading.Thread(target=loopingImages)
+imCap2.start()
+
 
 if __name__ == "__main__": 
     gui = Tk() 
