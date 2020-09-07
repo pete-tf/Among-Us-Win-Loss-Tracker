@@ -1,6 +1,7 @@
 import d3dshot
 import cv2
 import pytesseract
+import sys
 import os
 import time
 import threading
@@ -8,14 +9,22 @@ import numpy as np
 from tkinter import *
 
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
 
-
-
+    return os.path.join(base_path, relative_path)
 
 
 def addImpWin():
     global impWin
     (impWin:=impWin+1)
+    global totalWin
+    (totalWin:=totalWin+1)
     impWinField.configure(text=impWin)
     with open('impostorWin.txt','w+') as impostorWinFile:
         impostorWinFile.write(str(impWin))
@@ -24,6 +33,8 @@ def addImpWin():
 def remImpWin():
     global impWin
     (impWin:=impWin-1)
+    global totalWin
+    (totalWin:=totalWin-1)
     impWinField.configure(text=impWin)
     with open('impostorWin.txt','w+') as impostorWinFile:
         impostorWinFile.write(str(impWin))
@@ -32,6 +43,8 @@ def remImpWin():
 def addCrewWin():
     global crewWin
     (crewWin:=crewWin+1)
+    global totalWin
+    (totalWin:=totalWin+1)
     crewWinField.configure(text=crewWin)
     with open('crewWin.txt','w+') as crewWinFile:
         crewWinFile.write(str(crewWin))
@@ -40,6 +53,8 @@ def addCrewWin():
 def remCrewWin():
     global crewWin
     (crewWin:=crewWin-1)
+    global totalWin
+    (totalWin:=totalWin-1)
     crewWinField.configure(text=crewWin)
     with open('crewWin.txt','w+') as crewWinFile:
         crewWinFile.write(str(crewWin))
@@ -48,6 +63,8 @@ def remCrewWin():
 def addImpLoss():
     global impLoss
     (impLoss:=impLoss+1)
+    global totalLoss
+    (totalLoss:=totalLoss+1)
     impLossField.configure(text=impLoss)
     with open('impostorLoss.txt','w+') as impostorLossFile:
         impostorLossFile.write(str(impLoss))
@@ -56,6 +73,8 @@ def addImpLoss():
 def remImpLoss():
     global impLoss
     (impLoss:=impLoss-1)
+    global totalLoss
+    (totalLoss:=totalLoss+1)
     impLossField.configure(text=impLoss)
     with open('impostorLoss.txt','w+') as impostorLossFile:
         impostorLossFile.write(str(impLoss))
@@ -64,6 +83,8 @@ def remImpLoss():
 def addCrewLoss():
     global crewLoss
     (crewLoss:=crewLoss+1)
+    global totalLoss
+    (totalLoss:=totalLoss+1)
     crewLossField.configure(text=crewLoss)
     with open('crewLoss.txt','w+') as crewLossFile:
         crewLossFile.write(str(impLoss))
@@ -72,6 +93,8 @@ def addCrewLoss():
 def remCrewLoss():
     global crewLoss
     (crewLoss:=crewLoss-1)
+    global totalLoss
+    (totalLoss:=totalLoss+1)
     crewLossField.configure(text=crewLoss)
     with open('crewLoss.txt','w+') as crewLossFile:
         crewLossFile.write(str(impLoss))
@@ -183,11 +206,9 @@ def renewGUI():
 
 def outputToFile():
     with open('winLossStats.txt','w+') as winLossFile:
-        winLossFile.write("Currently " + str(role) + '\n')
-        winLossFile.write("Winrate" + '\n')
-        winLossFile.write("Impostor: " + str(impWin) + " - " + str(impLoss) + '\n')
-        winLossFile.write("Crewmate: " + str(crewWin) + " - " + str(crewLoss) + '\n')
-
+        global outputVar
+        outputVar = str("Currently " + str(role) + '\n' + "-- Winrate --" + '\n' + "Impostor: " + str(impWin) + " - " + str(impLoss) + '\n' + "Crewmate: " + str(crewWin)  + " - " + str(crewLoss) + '\n')
+        winLossFile.write(outputVar)
         
 
 def exitApp():
@@ -209,7 +230,7 @@ def imageCapture():
     # gray = cv2.cvtColor(capture, cv2.COLOR_BGR2GRAY)
     # ret, thresh = cv2.threshold(gray, 30, 255, cv2.THRESH_BINARY)
 
-    ret, thresh = cv2.threshold((cv2.cvtColor((d.screenshot(region=(370, 100, 1545, 350))), cv2.COLOR_BGR2GRAY)), 20, 255, cv2.THRESH_BINARY)
+    ret, thresh = cv2.threshold((cv2.cvtColor((d.screenshot(region=(leftBound, topBound, rightBound, bottomBound))), cv2.COLOR_BGR2GRAY)), 20, 255, cv2.THRESH_BINARY)
 
     # cv2.imshow("Screenshot",thresh)
     # cv2.waitKey(0)
@@ -233,18 +254,6 @@ def imageCapture():
         result = ""
         print("No Scan.")
 
-    # if first == 0:    
-    #     first = 1
-    # else:        
-    #     del capture
-    #     del gray
-    #     del thresh
-    #     del ret 
-
-    # del capture
-    # del gray
-    # del thresh
-    # del ret 
 
     global impWin
     global impLoss
@@ -331,16 +340,27 @@ def imageCapture():
 
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-pytesseract.pytesseract.tesseract_cmd = os.path.join(script_dir,'Tesseract\\tesseract.exe')
+tesspath = resource_path('Tesseract\\tesseract.exe')
+pytesseract.pytesseract.tesseract_cmd = os.path.join(tesspath)
+
 d = d3dshot.create(capture_output="numpy")
+resolution = str(d.display)
+resolution = resolution.split("resolution=",1)[1]
+resolution = resolution.split("rotation=",1)[0]
+xRes = int(resolution.split("x",1)[0])
+yRes = int(resolution.split("x",1)[1])
 
+leftBound = int( xRes * 0.192708 )
+topBound = int( yRes * 0.09259259259259 )
+rightBound = int( xRes * 0.8046875 )
+bottomBound = int( yRes * 0.324074074074074 )
 
-first = 0
-
-impWin = None
-impLoss = None
-crewWin = None
-crewLoss = None
+impWin = 0
+impLoss = 0
+crewWin = 0
+crewLoss = 0
+totalWin = 0
+totalLoss = 0
 
 
 
@@ -375,6 +395,17 @@ else:
     with open('crewLoss.txt','w+') as crewLossFile:
         crewLossFile.write("0")
         crewLoss = 0
+
+# if os.path.isfile('config.ini'):
+#     with open('config.ini') as configFile:
+#         for line in configFile:
+#             if re.search('##', line) is None:
+#                 outputConfig = line
+#                 outputVar = str(outputConfig)
+# else:
+#     with open('config.ini','w+') as configFile:
+#         outputVar = str("Currently " + str(role) + '\n' + "-- Winrate --" + '\n' + "Impostor: " + str(impWin) + " - " + str(impLoss) + '\n' + "Crewmate: " + str(crewWin)  + " - " + str(crewLoss) + '\n')
+#         configFile.write(outputVar)
 
 if not os.path.isfile('winLossStats.txt'):
     with open('winLossStats.txt','w+') as winLossFile:
@@ -413,6 +444,7 @@ if __name__ == "__main__":
     gui.title("Among Us Win/Loss") 
     gui.geometry("230x350")
     gui.protocol("WM_DELETE_WINDOW", exitApp)
+    gui.wm_attributes("-topmost", 1)
     
     currentRole = Label(gui, text=role, fg='white', bg=roleColor, height=2, width=32)
     currentRole.grid(row=0, column=0, columnspan=3)
@@ -489,13 +521,3 @@ if __name__ == "__main__":
     
     gui.mainloop()
 
-
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
