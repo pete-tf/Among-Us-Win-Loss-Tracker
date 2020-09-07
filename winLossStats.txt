@@ -1,0 +1,4 @@
+Currently Impostor
+Winrate
+Impostor: 1 - 0
+Crewmate: 0 - 1
